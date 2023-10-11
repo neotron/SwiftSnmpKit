@@ -541,6 +541,7 @@ public enum AsnValue: Equatable, CustomStringConvertible, AsnData {
             return "NoSuchObject"
         case .endOfMibView:
             return "EndOfMibView"
+        }
         
     }
     
