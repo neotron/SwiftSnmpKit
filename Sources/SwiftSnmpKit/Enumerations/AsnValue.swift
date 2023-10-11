@@ -488,6 +488,62 @@ public enum AsnValue: Equatable, CustomStringConvertible, AsnData {
         return length
     }
     
+    public var stringValue: String {
+        switch self {
+            
+        case .endOfContent:
+            return "EndOfContent"
+        case .integer(let integer):
+            return "\(integer)"
+        case .bitString(let bitString):
+            return "\(bitString)"
+        case .octetString(let octetString):
+            if let text = String(data: octetString, encoding: .utf8) {
+                return "\(text)"
+            } else {
+                return "\(octetString.hexdump)"
+            }
+        case .oid(let oid):
+            return "\(oid)"
+        case .null:
+            return "Null"
+        case .sequence(let contents):
+            var result = ""
+            for content in contents {
+                result += "  \(content)\n"
+            }
+            return result
+        case .ia5(let string):
+            return "\(string)"
+        case .snmpResponse(let pdu):
+            return "\(pdu)"
+        case .snmpGet(let pdu):
+            return "\(pdu)"
+        case .snmpGetNext(let pdu):
+            return "\(pdu)"
+        case .snmpReport(let pdu):
+            return "\(pdu)"
+        case .ipv4(let address):
+            let octet1 = (address & 0xff000000) >> 24
+            let octet2 = (address & 0x00ff0000) >> 16
+            let octet3 = (address & 0x0000ff00) >> 8
+            let octet4 = (address & 0x000000ff)
+            return "\(octet1).\(octet2).\(octet3).\(octet4)"
+        case .counter32(let value):
+            return "\(value)"
+        case .gauge32(let value):
+            return "\(value)"
+        case .timeticks(let ticks):
+            return "\(ticks)"
+        case .counter64(let value):
+            return "\(value)"
+        case .noSuchObject:
+            return "NoSuchObject"
+        case .endOfMibView:
+            return "EndOfMibView"
+        
+    }
+    
     public var description: String {
         switch self {
             
